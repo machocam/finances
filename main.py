@@ -1,7 +1,10 @@
+import matplotlib.pyplot as plt
+
 #Global Variables
 inflation = 0.02
 increase_life_level = 0.05  #this should be in function of my net income increase - maybe 50% of that increase
 increase_salary = 0.05
+data_table = {}
 
 class CapitalLocations:
     capitallocations_list =[]
@@ -16,7 +19,7 @@ Livret_A = CapitalLocations("Livret_A", 12000, 0.02)
 Current = CapitalLocations("Current", 2950, 0)
 Bank = CapitalLocations("Bank", 0, 0)
 Market = CapitalLocations("Market", 0, 0)
-OUT = CapitalLocations("Out", 0, 0)
+OUT = CapitalLocations("OUT", 0, 0)
 
 class Movements:
     movements_list = []
@@ -53,14 +56,22 @@ def calculate_movement_amounts(movement):
     #elif movement == taxes: 
         #here you will call the taxes function with all the current amounts
 
+def create_tuples(locations_list):
+    for location in locations_list:
+        data_table[location.name] = []
+
 def Project(number_periods):
     for period in range(1,number_periods):
         for movement in Movements.movements_list:
             if period % movement.periodicity == 0:
                 calculate_movement_amounts(movement)
                 eval(movement.from_location).amount -= movement.amount
+                data_table[movement.from_location].append((period,eval(movement.from_location).amount))
                 eval(movement.to_location).amount += movement.amount
+                data_table[movement.to_location].append((period,eval(movement.to_location).amount))
+
+create_tuples(CapitalLocations.capitallocations_list)
 Project(24)
-print Livret_A.amount
-print Current.amount
-print OUT.amount
+plt.scatter(*zip(*data_table["Livret_A"]))
+print "hello"
+
