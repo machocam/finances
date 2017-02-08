@@ -36,7 +36,7 @@ rent = Movements("Rent", "Current", "OUT", 900, 1)
 salary = Movements("Salary", "OUT", "Current", 2315.38, 1)
 food = Movements("Food", "Current", "OUT", 500, 1)
 Int_livret_a = Movements("LivA_interest", "OUT", "Livret_A", 0, 12)
-taxes = Movements("Taxes", "Current", "OUT", 3000, 12)
+taxes = Movements("Taxes", "Livret_A", "OUT", 3000, 12)
 current_to_livret_a = Movements("current_to_livret", "Current", "Livret_A", 0, 1)
 
 #Insert taxes calculation function here to have accurate taxes.
@@ -73,5 +73,7 @@ def Project(number_periods):
 create_tuples(CapitalLocations.capitallocations_list)
 Project(24)
 plt.scatter(*zip(*data_table["Livret_A"]))
+plt.scatter(*zip(*data_table["Current"]))
+plt.show()
 print "hello"
 
